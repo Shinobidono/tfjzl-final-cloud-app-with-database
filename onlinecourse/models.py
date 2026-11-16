@@ -124,7 +124,7 @@ class Choice(models.Model):
     is_correct = models.BooleanField(default=False)
 
     def __str__(self):
-    return self.content
+        return self.content
 
 # One enrollment could have multiple submission
 # One submission could have multiple choices
@@ -134,4 +134,4 @@ class Submission(models.Model):
     choices = models.ManyToManyField(Choice)
 
     def __str__(self):
-    return f"Submission by {self.enrollment.user.username}"
+        return f"Submission by {self.enrollment.user.username}"
