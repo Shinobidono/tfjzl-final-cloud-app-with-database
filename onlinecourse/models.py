@@ -64,8 +64,7 @@ class Course(models.Model):
     is_enrolled = False
 
     def __str__(self):
-        return "Name: " + self.name + "," + \
-               "Description: " + self.description
+        return "Name: " + self.name + "," + "Description: " + self.description
 
 
 # Lesson model
@@ -74,6 +73,9 @@ class Lesson(models.Model):
     order = models.IntegerField(default=0)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     content = models.TextField()
+
+    def __str__(self):
+        return self.title
 
 
 # Enrollment model
@@ -94,6 +96,9 @@ class Enrollment(models.Model):
     mode = models.CharField(max_length=5, choices=COURSE_MODES, default=AUDIT)
     rating = models.FloatField(default=5.0)
 
+    def __str__(self):
+    return f"{self.user.username} - {self.course.name}"
+
 
 
 class Question(models.Model): 
@@ -101,7 +106,7 @@ class Question(models.Model):
     content = models.CharField(max_length=200) 
     grade = models.IntegerField(default=50)
 
-    def str(self): 
+    def __str__(self): 
         return "Question: " + self.content
 
     # method to calculate if the learner gets the score of the question
@@ -118,9 +123,15 @@ class Choice(models.Model):
     content = models.CharField(max_length=200) 
     is_correct = models.BooleanField(default=False)
 
+    def __str__(self):
+    return self.content
+
 # One enrollment could have multiple submission
 # One submission could have multiple choices
 # One choice could belong to multiple submissions
 class Submission(models.Model):
     enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
     choices = models.ManyToManyField(Choice)
+
+    def __str__(self):
+    return f"Submission by {self.enrollment.user.username}"
